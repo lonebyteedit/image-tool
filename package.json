@@ -1,0 +1,39 @@
+{
+  "name": "test-astro-solid",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check",
+    "preview": "astro preview",
+    "bp": "astro build && serve dist -l 5173",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/solid-js": "^5.1.0",
+    "@jsquash/avif": "^2.1.1",
+    "@jsquash/jpeg": "^1.6.0",
+    "@jsquash/oxipng": "^2.3.0",
+    "@jsquash/png": "^3.1.1",
+    "@jsquash/resize": "^2.1.0",
+    "@jsquash/webp": "^1.5.0",
+    "@vanilla-extract/recipes": "^0.5.7",
+    "astro": "^5.13.3",
+    "jszip": "^3.10.1",
+    "libheif-js": "^1.19.8",
+    "solid-js": "^1.9.9"
+  },
+  "devDependencies": {
+    "@iconify-json/bi": "^1.2.6",
+    "@iconify-json/fa6-brands": "^1.2.6",
+    "@iconify-json/fa6-solid": "^1.2.4",
+    "@types/jszip": "^3.4.0",
+    "@vanilla-extract/css": "^1.17.4",
+    "@vanilla-extract/vite-plugin": "^5.1.1",
+    "typescript": "^5.9.2",
+    "typescript-plugin-css-modules": "^5.2.0",
+    "unplugin-icons": "^22.2.0"
+  }
+}

@@ -1,0 +1,74 @@
+--- 
+import "@/styles/global.css";
+import HeaderSimple from "@/components/Header/HeaderSimple.astro";
+import Footer from "@/components/Footer/Footer.tsx";
+import LegalDoc from "@/components/Legal/Legal.tsx";
+import { getTranslations } from "@/i18n/utils.ts";
+
+const t = getTranslations('en'); // Get english translations for header
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+    <head>
+        <script is:inline>
+            (function () {
+                try {
+                    const theme = localStorage.getItem("theme");
+                    if (
+                        theme === "dark" ||
+                        (!theme &&
+                            window.matchMedia("(prefers-color-scheme: dark)")
+                                .matches)
+                    ) {
+                        document.documentElement.classList.add("dark-mode");
+                    }
+                } catch (e) {}
+            })();
+        </script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <title>Terms of Service - Image Tool</title>
+        <meta name="description" content="Terms of Service for image-tool.org, the free and private online image conversion tool." />
+    </head>
+    <body>
+        <div class="container">
+            <HeaderSimple themeToggleTitle={t.static.themeToggle_title} />
+            <main>
+                <LegalDoc title="Terms of Service">
+                    <h2>1. Acceptance of Terms</h2>
+                    <p>By accessing and using image-tool.org (the "Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by these terms, please do not use this Service.</p>
+            
+                    <h2>2. Description of Service</h2>
+                    <p>The Service is a web-based tool that allows users to process and convert images. All processing is done locally in the user's browser. No files or data are uploaded to our servers. The Service is provided "as is" and is free of charge.</p>
+            
+                    <h2>3. User Conduct</h2>
+                    <p>You agree not to use the Service for any unlawful purpose. You are solely responsible for the content (images) you process through the Service and for ensuring that you have the legal right to use and modify that content.</p>
+                    <p>You agree not to use the service in any way that could damage, disable, or impair the Service or interfere with any other party's use of the Service.</p>
+            
+                    <h2>4. Intellectual Property</h2>
+                    <p>The Service and its original content (excluding user-provided content), features, and functionality are and will remain the exclusive property of image-tool.org and its licensors. The content you process with the tool remains your own property.</p>
+            
+                    <h2>5. Disclaimer of Warranties</h2>
+                    <p>The Service is provided on an "as is" and "as available" basis. We provide no warranties, expressed or implied, and hereby disclaim and negate all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+                    <p>We do not warrant that the service will be uninterrupted, timely, secure, or error-free.</p>
+            
+                    <h2>6. Limitation of Liability</h2>
+                    <p>In no event shall image-tool.org or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on our website, even if we or an authorized representative has been notified orally or in writing of the possibility of such damage.</p>
+            
+                    <h2>7. Changes to Terms</h2>
+                    <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. We will provide notice of any changes by posting the new Terms of Service on this page. Your continued use of the Service after any such changes constitutes your acceptance of the new Terms.</p>
+            
+                    <h2>8. Governing Law</h2>
+                    <p>These terms and conditions are governed by and construed in accordance with the laws of the jurisdiction where the website owner is based, and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.</p>
+            
+                    <h2>9. Contact Us</h2>
+                    <p>If you have any questions about these Terms, please contact us at: contact@image-tool.org</p>
+                    <p><em>Last updated: September 30, 2025</em></p>
+                </LegalDoc>
+            </main>
+            <Footer />
+        </div>
+    </body>
+</html>
