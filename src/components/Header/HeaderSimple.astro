@@ -1,0 +1,29 @@
+--- 
+import * as styles from './Header.css.ts';
+import ThemeToggle from './ThemeToggle/ThemeToggle.astro';
+
+const { themeToggleTitle } = Astro.props;
+---
+
+<header class={styles.header}>
+    <div class={styles.headerContent}>
+        <a href="/" class={styles.logoLink}>
+            <div class={styles.logo}>
+                <svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logo-gradient-final" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color: var(--primary-light);" />
+                            <stop offset="100%" style="stop-color: var(--primary);" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="45" height="45" rx="12" fill="url(#logo-gradient-final)" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5,0 L25,0 Q30,0 30,5 L30,25 Q30,30 25,30 L5,30 Q0,30 0,25 L0,5 Q0,0 5,0 Z M5,3 L25,3 Q27,3 27,5 L27,25 Q27,27 25,27 L5,27 Q3,27 3,25 L3,5 Q3,3 5,3 Z M23.5,12 A3.5,3.5 0 1,1 16.5,12 A3.5,3.5 0 1,1 23.5,12 Z M4,26 C8,10 12,10 16,20 C20,22 22,16 26,26 Z" transform="translate(7.5, 7.5)" fill="white" />
+                </svg>
+                <h1 class={styles.title}>IMAGE TOOL</h1>
+            </div>
+        </a>
+        <div class={styles.controlsWrapper}>
+            <ThemeToggle title={themeToggleTitle} />
+        </div>
+    </div>
+</header>

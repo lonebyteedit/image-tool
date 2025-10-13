@@ -1,0 +1,79 @@
+--- 
+import "@/styles/global.css";
+import HeaderSimple from "@/components/Header/HeaderSimple.astro";
+import Footer from "@/components/Footer/Footer.tsx";
+import LegalDoc from "@/components/Legal/Legal.tsx";
+import { getTranslations } from "@/i18n/utils.ts";
+
+const t = getTranslations('en'); // Get english translations for header
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+    <head>
+        <script is:inline>
+            (function () {
+                try {
+                    const theme = localStorage.getItem("theme");
+                    if (
+                        theme === "dark" ||
+                        (!theme &&
+                            window.matchMedia("(prefers-color-scheme: dark)")
+                                .matches)
+                    ) {
+                        document.documentElement.classList.add("dark-mode");
+                    }
+                } catch (e) {}
+            })();
+        </script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <title>Privacy Policy - Image Tool</title>
+        <meta name="description" content="Privacy Policy for image-tool.org, the free and private online image conversion tool." />
+    </head>
+    <body>
+        <div class="container">
+            <HeaderSimple themeToggleTitle={t.static.themeToggle_title} />
+            <main>
+                <LegalDoc title="Privacy Policy">
+                    <h2>1. Introduction</h2>
+                    <p>Welcome to image-tool.org ("we", "our", "us"). We are committed to protecting your privacy. This Privacy Policy explains how we handle your information when you use our website and services.</p>
+                    <p>Our core principle is privacy by design. Our image processing tool is designed to work entirely in your browser. <strong>We do not upload, store, or transmit your images to our servers.</strong></p>
+            
+                    <h2>2. Information We Do Not Collect</h2>
+                    <p>When you use our service to process images, all operations happen locally on your computer (in your browser). We do not have access to, collect, or store:</p>
+                    <ul>
+                        <li>The images you upload or process.</li>
+                        <li>Any data extracted from your images.</li>
+                        <li>Any personal information that might be contained within your images.</li>
+                    </ul>
+            
+                    <h2>3. Information We Collect</h2>
+                    <p>We may collect non-personally identifiable information to improve our website and services. This includes:</p>
+                    <ul>
+                        <li><strong>Analytics Data:</strong> We may use privacy-respecting analytics tools to collect anonymous usage data, such as the number of visitors, pages visited, and features used. This data is aggregated and cannot be used to identify you personally.</li>
+                        <li><strong>Technical Information:</strong> We may collect anonymous technical information, such as browser type, operating system, and device type, to ensure compatibility and optimize user experience.</li>
+                    </ul>
+            
+                    <h2>4. Cookies and Local Storage</h2>
+                    <p>We use <code>localStorage</code> in your browser for essential site functionality, such as storing your preferred theme (light or dark mode). This information is stored only on your device and is not transmitted to our servers.</p>
+            
+                    <h2>5. Third-Party Services</h2>
+                    <p>Our website may contain links to other websites. We are not responsible for the privacy practices of these other sites. We encourage you to be aware when you leave our site and to read the privacy statements of any other site that collects personally identifiable information.</p>
+            
+                    <h2>6. Data Security</h2>
+                    <p>Since we do not collect or store your files, the security of your images is in your hands. The processing is done on your device, eliminating the risk of data breaches on our end related to your files.</p>
+            
+                    <h2>7. Changes to This Privacy Policy</h2>
+                    <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.</p>
+            
+                    <h2>8. Contact Us</h2>
+                    <p>If you have any questions about this Privacy Policy, please contact us at: contact@image-tool.org</p>
+                    <p><em>Last updated: September 30, 2025</em></p>
+                </LegalDoc>
+            </main>
+            <Footer />
+        </div>
+    </body>
+</html>

@@ -1,0 +1,143 @@
+---
+import { LANGUAGE_LIST, defaultLocale, type SupportedLocale } from '../../../i18n/languageList';
+import * as styles from './LanguageSelector.css';
+import LanguageIcon from '~icons/fa6-solid/language';
+import ChevronDownIcon from '~icons/fa6-solid/chevron-down';
+import CheckIcon from '~icons/fa6-solid/check';
+
+const { lang } = Astro.params;
+const currentLocale: SupportedLocale = lang && LANGUAGE_LIST.some((l) => l.code === lang) ? (lang as SupportedLocale) : defaultLocale;
+const selectedLanguage = LANGUAGE_LIST.find((l) => l.code === currentLocale);
+---
+
+<div id="lang-switcher" class={styles.languageSwitcher}>
+    <button id="lang-switcher-button" class={styles.button} aria-haspopup="true" aria-expanded="false">
+        <LanguageIcon class={styles.languageIcon} />
+        <span>{selectedLanguage?.name}</span>
+        <ChevronDownIcon class={styles.chevronIcon} />
+    </button>
+    <div class={styles.menu}>
+
+        <span class={styles.LanguagesTitle}>UN Languages</span>
+        <div class={styles.columns}>
+            {
+                LANGUAGE_LIST.filter((lang) => lang.tag === 'UN Languages').map((lang) => (
+                    <a
+                        href={lang.code === defaultLocale ? '/' : `/${lang.code}/`}
+                        class:list={[
+                            styles.item,
+                            {
+                                [styles.item_active]: selectedLanguage?.code === lang.code,
+                            },
+                        ]}
+                    >
+                        <span>{lang.name}</span>
+                        {selectedLanguage?.code === lang.code && <CheckIcon class={styles.checkIcon} />}
+                    </a>
+                ))
+            }
+        </div>
+
+        <span class={styles.LanguagesTitle}>Europe Languages</span>
+        <div class={styles.columns}>
+            {
+                LANGUAGE_LIST.filter((lang) => lang.tag === 'Europe Languages').map((lang) => (
+                    <a
+                        href={lang.code === defaultLocale ? '/' : `/${lang.code}/`}
+                        class:list={[
+                            styles.item,
+                            {
+                                [styles.item_active]: selectedLanguage?.code === lang.code,
+                            },
+                        ]}
+                    >
+                        <span>{lang.name}</span>
+                        {selectedLanguage?.code === lang.code && <CheckIcon class={styles.checkIcon} />}
+                    </a>
+                ))
+            }
+        </div>
+
+        <span class={styles.LanguagesTitle}>Americas Languages</span>
+        <div class={styles.columns}>
+            {
+                LANGUAGE_LIST.filter((lang) => lang.tag === 'Americas Languages').map((lang) => (
+                    <a
+                        href={lang.code === defaultLocale ? '/' : `/${lang.code}/`}
+                        class:list={[
+                            styles.item,
+                            {
+                                [styles.item_active]: selectedLanguage?.code === lang.code,
+                            },
+                        ]}
+                    >
+                        <span>{lang.name}</span>
+                        {selectedLanguage?.code === lang.code && <CheckIcon class={styles.checkIcon} />}
+                    </a>
+                ))
+            }
+        </div>
+
+        <span class={styles.LanguagesTitle}>Asia Languages</span>
+        <div class={styles.columns}>
+            {
+                LANGUAGE_LIST.filter((lang) => lang.tag === 'Asia Languages').map((lang) => (
+                    <a
+                        href={lang.code === defaultLocale ? '/' : `/${lang.code}/`}
+                        class:list={[
+                            styles.item,
+                            {
+                                [styles.item_active]: selectedLanguage?.code === lang.code,
+                            },
+                        ]}
+                    >
+                        <span>{lang.name}</span>
+                        {selectedLanguage?.code === lang.code && <CheckIcon class={styles.checkIcon} />}
+                    </a>
+                ))
+            }
+        </div>
+
+        <span class={styles.LanguagesTitle}>Africa Languages</span>
+        <div class={styles.columns}>
+            {
+                LANGUAGE_LIST.filter((lang) => lang.tag === 'Africa Languages').map((lang) => (
+                    <a
+                        href={lang.code === defaultLocale ? '/' : `/${lang.code}/`}
+                        class:list={[
+                            styles.item,
+                            {
+                                [styles.item_active]: selectedLanguage?.code === lang.code,
+                            },
+                        ]}
+                    >
+                        <span>{lang.name}</span>
+                        {selectedLanguage?.code === lang.code && <CheckIcon class={styles.checkIcon} />}
+                    </a>
+                ))
+            }
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const switcher = document.getElementById('lang-switcher');
+    const button = document.getElementById('lang-switcher-button');
+
+    if (switcher && button) {
+        const toggleMenu = (e?: MouseEvent) => {
+            e?.stopPropagation();
+            const isOpen = switcher.classList.toggle('is-open');
+            button.setAttribute('aria-expanded', String(isOpen));
+        };
+
+        button.addEventListener('click', toggleMenu);
+
+        document.addEventListener('click', (e) => {
+            if (switcher.classList.contains('is-open') && !switcher.contains(e.target as Node)) {
+                toggleMenu();
+            }
+        });
+    }
+</script>

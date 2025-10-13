@@ -1,0 +1,55 @@
+---
+import "../../styles/global.css";
+import Footer from "@/components/Footer/Footer.tsx";
+import Header from "@/components/Header/Header.astro";
+import App from "@/components/App.tsx";
+import Description from "@/components/Description/Description.tsx";
+import OptionsExplanation from "@/components/OptionsExplanation/OptionsExplanation.tsx";
+import { getTranslations } from "@/i18n/utils.ts";
+import { LANGUAGE_LIST, type SupportedLocale, defaultLocale } from "@/i18n/languageList.ts";
+
+export function getStaticPaths() {
+    return LANGUAGE_LIST.map((lang) => ({
+        params: { lang: lang.code === defaultLocale ? undefined : lang.code },
+    }));
+}
+
+const { lang } = Astro.params;
+const currentLocale: SupportedLocale = (lang && LANGUAGE_LIST.some(l => l.code === lang)) ? lang as SupportedLocale : defaultLocale;
+const translations = getTranslations(currentLocale);
+const { static: staticTexts, interactive: interactiveTexts } = translations;
+---
+
+<!doctype html>
+<html lang={staticTexts.index_lang} dir={staticTexts.index_dir}>
+    <head>
+        <script is:inline>
+            (function () {
+                try {
+                    const theme = localStorage.getItem("theme");
+                    if (
+                        theme === "dark" ||
+                        (!theme &&
+                            window.matchMedia("(prefers-color-scheme: dark)")
+                                .matches)
+                    ) {
+                        document.documentElement.classList.add("dark-mode");
+                    }
+                } catch (e) {}
+            })();
+        </script>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <title>{staticTexts.index_title}</title>
+    </head>
+    <body>
+        <div class="container">
+            <Header themeToggleTitle={staticTexts.themeToggle_title} />
+            <Description text={staticTexts.index_description} />
+            <App interactiveTexts={interactiveTexts} client:load />
+            <OptionsExplanation texts={staticTexts.optionsExplanation} />
+            <Footer />
+        </div>
+    </body>
+</html>
