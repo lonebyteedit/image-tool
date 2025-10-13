@@ -1,4 +1,4 @@
-import { For, Show, createSignal, onMount } from 'solid-js';
+import { For, Show, createSignal, onMount, createEffect, onCleanup } from 'solid-js';
 import { i18nService } from '../../../i18n/i18nService';
 import type { Format, ImageObject } from '../../../store/store';
 import { appState, deleteAll, setAppState, deleteImage, reconvertImage, formatFileSize, formatImageType, getFormatOptions } from '../../../store/store';
@@ -169,6 +169,57 @@ export default function PreviewSection() {
                             {(item) => {
                                 const [activeTab, setActiveTab] = createSignal('comparison');
 
+                                const [fakeProgress, setFakeProgress] = createSignal(0);
+
+                                let intervalId: ReturnType<typeof setInterval> | undefined;
+                                let ticks = 0;
+                                const DURATION_PHASE_1_SECONDS = 60;
+                                const INTERVAL_SECONDS = 3;
+                                const TICKS_PHASE_1 = DURATION_PHASE_1_SECONDS / INTERVAL_SECONDS; // 20 ticks
+
+                                createEffect(() => {
+                                    if (item.convertState === 'converting') {
+                                        setFakeProgress(0);
+                                        ticks = 0;
+
+                                        if (intervalId) clearInterval(intervalId);
+
+                                        intervalId = setInterval(() => {
+                                            ticks++;
+                                            setFakeProgress(p => {
+                                                if (p >= 99.9) return p;
+
+                                                let increment;
+                                                if (ticks <= TICKS_PHASE_1) {
+                                                    increment = Math.random() * (5.5 - 2.5) + 2.5;
+                                                } else {
+                                                    increment = Math.random() * (1.2 - 0.8) + 0.8;
+                                                }
+
+                                                const nextProgress = p + increment;
+
+                                                if (nextProgress > 99.9) {
+                                                    return p;
+                                                }
+
+                                                return Math.floor(nextProgress * 10) / 10;
+                                            });
+                                        }, INTERVAL_SECONDS * 1000);
+                                    } else {
+                                        if (intervalId) {
+                                            clearInterval(intervalId);
+                                            intervalId = undefined;
+                                        }
+                                        setFakeProgress(100);
+                                    }
+                                });
+
+                                onCleanup(() => {
+                                    if (intervalId) {
+                                        clearInterval(intervalId);
+                                    }
+                                });
+
 
                                 const statusMessages: Record<ImageObject['convertState'], string> = {
                                     pending: i18nService.t('previewSection_statusPending'),
@@ -215,7 +266,11 @@ export default function PreviewSection() {
                                                             <span><CircleInfoIcon /> {statusMessages.pending}</span>
                                                         </Show>
                                                         <Show when={item.convertState === 'converting'}>
-                                                            <span><SpinnerIcon class={styles.spinnerIcon} /> {statusMessages.converting}</span>
+                                                            <span>
+                                                                <SpinnerIcon class={styles.spinnerIcon} />
+                                                                {statusMessages.converting}
+                                                                &nbsp;{fakeProgress()}%
+                                                            </span>
                                                         </Show>
                                                         <Show when={item.convertState === 'completed'}>
                                                             <span><FileLinesIcon /> {i18nService.t('previewSection_originalSizeLabel')} &lrm;{formatFileSize(item.originalFileSize)}</span>
